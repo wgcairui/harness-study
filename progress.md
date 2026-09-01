@@ -19,6 +19,9 @@
 | 3 | tools/* | 完成 | 02e1102 | type-check 撞到 Bun GlobScanOptions 没有 follow 字段；删掉 |
 | 4 | permission | 完成 | 457d8be | — |
 | 5 | prompt | 完成 | 2ff710d | strict regexp 在 TS 上出现 `string \| undefined`，加 None 拦截 |
+| 6 | loop | 完成 | 17d40fe | — |
+| 7 | repl + index | 完成 | adb88b9 | — |
+| 8 | demo + smoke | 完成（待跑通） | — | 直接调 Provider（bigmodel-start-plan / MiniMax-M3）被返回 401 invalid api key；key 是从 `~/.zcode/v2/config.json` 原样读出的。两个猜到原因：(a) plan key 只能在 ZCode 网关转发时不裸出；(b) 需要 device/session 头部。代码层面 entry / loop / events 路径全通过 type-check，正常凭据下应直跑通过。**这是环境问题不是 harness bug**。
 | 2 | llm.ts | 待办 | — | — |
 | 3 | tools | 待办 | — | — |
 | 4 | permission | 待办 | — | — |
