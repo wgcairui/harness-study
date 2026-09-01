@@ -17,6 +17,7 @@
 | 1 | events.ts | 完成 | c6a90a6 | — |
 | 2 | llm.ts | 完成 | dd1e891 | — |
 | 3 | tools/* | 完成 | 02e1102 | type-check 撞到 Bun GlobScanOptions 没有 follow 字段；删掉 |
+| 4 | permission | 完成 | 457d8be | — |
 | 2 | llm.ts | 待办 | — | — |
 | 3 | tools | 待办 | — | — |
 | 4 | permission | 待办 | — | — |
