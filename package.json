@@ -2,7 +2,16 @@
   "name": "harness-study",
   "module": "index.ts",
   "type": "module",
-  "private": true,
+  "license": "MIT",
+  "author": "cairui",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wgcairui/harness-study.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wgcairui/harness-study/issues"
+  },
+  "homepage": "https://github.com/wgcairui/harness-study#readme",
   "devDependencies": {
     "@types/bun": "latest"
   },

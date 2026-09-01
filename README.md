@@ -1,5 +1,7 @@
 # harness-study
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 > 一个最小可跑的 Claude Code / ZCode 风格 agent harness，用来从零学 agent loop。
 
 ## 它是什么
