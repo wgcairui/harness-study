@@ -15,6 +15,7 @@
 | --- | --- | --- | --- | --- |
 | 0 | docs 骨架 | 完成 | (docs commit) | — |
 | 1 | events.ts | 完成 | c6a90a6 | — |
+| 2 | llm.ts | 完成 | dd1e891 | — |
 | 2 | llm.ts | 待办 | — | — |
 | 3 | tools | 待办 | — | — |
 | 4 | permission | 待办 | — | — |

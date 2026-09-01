@@ -63,6 +63,7 @@
 ## 完成情况（AI 在 commit 时同步）
 
 - [x] Layer 1 — events  ✓ 完成于 c6a90a6
+- [x] Layer 2 — llm  ✓ 完成于 dd1e891
 - [ ] Layer 2 — llm
 - [ ] Layer 3 — tools
 - [ ] Layer 4 — permission
