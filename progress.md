@@ -13,8 +13,8 @@
 
 | layer | 计划 | 实际 | commit | 偏差原因 |
 | --- | --- | --- | --- | --- |
-| 0 | docs 骨架 | 待办 | — | — |
-| 1 | events.ts | 待办 | — | — |
+| 0 | docs 骨架 | 完成 | (docs commit) | — |
+| 1 | events.ts | 完成 | c6a90a6 | — |
 | 2 | llm.ts | 待办 | — | — |
 | 3 | tools | 待办 | — | — |
 | 4 | permission | 待办 | — | — |
