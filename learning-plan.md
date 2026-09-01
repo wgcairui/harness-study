@@ -69,10 +69,4 @@
 - [x] Layer 5 — prompt  ✓ 完成于 2ff710d
 - [x] Layer 6 — loop  ✓ 完成于 17d40fe
 - [x] Layer 7 — repl + index  ✓ 完成于 7833ff7
-- [ ] Layer 2 — llm
-- [ ] Layer 3 — tools
-- [ ] Layer 4 — permission
-- [ ] Layer 5 — prompt
-- [ ] Layer 6 — loop
-- [ ] Layer 7 — repl + index
-- [ ] Example 01 — repo_qa demo
+- [x] Example 01 — repo_qa demo  ✓ 代码完成于 29f507b；smoke 受 plan key 401 阻断（直 Anthropic key 应直通）
