@@ -18,6 +18,7 @@
 | 2 | llm.ts | 完成 | dd1e891 | — |
 | 3 | tools/* | 完成 | 02e1102 | type-check 撞到 Bun GlobScanOptions 没有 follow 字段；删掉 |
 | 4 | permission | 完成 | 457d8be | — |
+| 5 | prompt | 完成 | 2ff710d | strict regexp 在 TS 上出现 `string \| undefined`，加 None 拦截 |
 | 2 | llm.ts | 待办 | — | — |
 | 3 | tools | 待办 | — | — |
 | 4 | permission | 待办 | — | — |

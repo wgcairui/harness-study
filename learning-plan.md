@@ -66,6 +66,7 @@
 - [x] Layer 2 — llm  ✓ 完成于 dd1e891
 - [x] Layer 3 — tools  ✓ 完成于 02e1102
 - [x] Layer 4 — permission  ✓ 完成于 457d8be
+- [x] Layer 5 — prompt  ✓ 完成于 2ff710d
 - [ ] Layer 2 — llm
 - [ ] Layer 3 — tools
 - [ ] Layer 4 — permission
