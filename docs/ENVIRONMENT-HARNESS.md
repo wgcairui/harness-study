@@ -24,13 +24,13 @@
 
 | 模板 | 什么时候装 | 作用 |
 | --- | --- | --- |
-| [`AGENTS.md`](../templates/AGENTS.md) | 第 1 顺位 | 根指令：开工流程、工作规则、完成定义 |
-| [`init.sh`](../templates/init.sh) | 第 2 顺位 | 一条命令完成装依赖 + 基线验证 + 打印启动命令 |
-| [`feature_list.json`](../templates/feature_list.json) | 第 3 顺位 | 机器可读的范围边界：一次只许一个 in_progress |
-| [`progress.md`](../templates/progress.md) | 第 4 顺位 | 会话进度日志：下会话开头读它，结束前写它 |
-| [`session-handoff.md`](../templates/session-handoff.md) | 长会话再加 | 交接摘要：哪可用、哪坏了、下一步 |
-| [`clean-state-checklist.md`](../templates/clean-state-checklist.md) | 长会话再加 | 收尾清单：不过完不许 commit |
-| [`evaluator-rubric.md`](../templates/evaluator-rubric.md) | 阶段 3 再加 | 六维度评分表：正确性/验证/范围/可靠性/可维护性/交接 |
+| [`AGENTS.md`](https://github.com/wgcairui/harness-study/blob/main/templates/AGENTS.md) | 第 1 顺位 | 根指令：开工流程、工作规则、完成定义 |
+| [`init.sh`](https://github.com/wgcairui/harness-study/blob/main/templates/init.sh) | 第 2 顺位 | 一条命令完成装依赖 + 基线验证 + 打印启动命令 |
+| [`feature_list.json`](https://github.com/wgcairui/harness-study/blob/main/templates/feature_list.json) | 第 3 顺位 | 机器可读的范围边界：一次只许一个 in_progress |
+| [`progress.md`](https://github.com/wgcairui/harness-study/blob/main/templates/progress.md) | 第 4 顺位 | 会话进度日志：下会话开头读它，结束前写它 |
+| [`session-handoff.md`](https://github.com/wgcairui/harness-study/blob/main/templates/session-handoff.md) | 长会话再加 | 交接摘要：哪可用、哪坏了、下一步 |
+| [`clean-state-checklist.md`](https://github.com/wgcairui/harness-study/blob/main/templates/clean-state-checklist.md) | 长会话再加 | 收尾清单：不过完不许 commit |
+| [`evaluator-rubric.md`](https://github.com/wgcairui/harness-study/blob/main/templates/evaluator-rubric.md) | 阶段 3 再加 | 六维度评分表：正确性/验证/范围/可靠性/可维护性/交接 |
 
 安装要领（详细字段说明见[课程模板使用指南](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/templates/)）：
 

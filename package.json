@@ -11,9 +11,15 @@
   "bugs": {
     "url": "https://github.com/wgcairui/harness-study/issues"
   },
-  "homepage": "https://github.com/wgcairui/harness-study#readme",
+  "homepage": "https://wgcairui.github.io/harness-study/",
+  "scripts": {
+    "docs:dev": "vitepress dev docs --port 5173",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "vitepress": "^1.6.4"
   },
   "peerDependencies": {
     "typescript": "^7.0.2"

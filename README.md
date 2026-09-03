@@ -2,9 +2,12 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Roadmap](https://img.shields.io/badge/学习路线-阶段%200→5-blue?style=flat-square)](docs/ROADMAP.md)
+[![在线阅读](https://img.shields.io/badge/在线阅读-wgcairui.github.io-success?style=flat-square)](https://wgcairui.github.io/harness-study/)
 
 > 一个最小可跑的 Claude Code / ZCode 风格 agent harness，用来**从零学 agent loop**——
 > 同时也是一份**新人可跟随的渐进式教程项目**。
+>
+> 📱 **想在平板/手机上看？** 直接访问 [wgcairui.github.io/harness-study](https://wgcairui.github.io/harness-study/)，暗色/亮色跟随系统自动切换，侧边栏可折叠。
 
 ## 它是什么：一个项目，两种用法
 

@@ -59,7 +59,7 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 
 **读什么**：
 - 本 repo 源码，按依赖序：`src/events.ts` → `src/llm.ts` → `src/tools/registry.ts` + `src/tools/read_file.ts` → `src/permission.ts` → `src/prompt.ts` → `src/loop.ts` → `src/repl.ts` + `src/index.ts`
-- 每层的 Why/Done/Verify 见 [`learning-plan.md`](../learning-plan.md)（本阶段的详细施工图）
+- 每层的 Why/Done/Verify 见 [`learning-plan.md`](https://github.com/wgcairui/harness-study/blob/main/learning-plan.md)（本阶段的详细施工图；本 repo 仓库根目录）
 - [OpenAI: Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) — 工业级 loop 和你的 mini loop 差在哪
 - 本 repo README 的「真实系统对应地图」— 每层在 ZCode / Claude Code SDK 里的原型
 
@@ -89,7 +89,7 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 5. 课程 [method-map](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/reference/method-map) — 失败模式 → 工件对照表
 
 **做什么**：
-- 把 [`templates/`](../templates/) 七件套装进**你自己的真实项目**（不是本 repo）：AGENTS.md、init.sh、feature_list.json、progress.md、session-handoff.md、clean-state-checklist.md、evaluator-rubric.md。先装前四个，项目变复杂再补其余
+- 把 [`templates/`](https://github.com/wgcairui/harness-study/tree/main/templates) 七件套装进**你自己的真实项目**（不是本 repo）：AGENTS.md、init.sh、feature_list.json、progress.md、session-handoff.md、clean-state-checklist.md、evaluator-rubric.md。先装前四个，项目变复杂再补其余
 - 参照本 repo 根目录的 `init.sh` + `feature_list.json` + `AGENTS.md` 验证命令段——本 repo 自己就是这套方法的第一个使用者（自审计报告见 [`ENVIRONMENT-HARNESS.md`](./ENVIRONMENT-HARNESS.md)）
 - 对照课程 [P01](https://walkinglabs.github.io/learn-harness-engineering/zh/projects/project-01-baseline-vs-minimal-harness/) 做一次 A/B：同一任务，纯 prompt vs 规则驱动，记录结果差异
 - 自查两条硬规则：L07 的 WIP=1（同一时间只允许一个 in_progress，贪多的代码行数和完成率负相关）；L08 的三元组（每项功能必须有 行为描述 + 验证命令 + 状态，缺一不完整）

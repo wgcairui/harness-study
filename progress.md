@@ -68,6 +68,22 @@
 - 已知风险或未解决问题：外部文章后续可能改版，简介以核对当日为准
 - 下一步最佳动作：`test-001` 补齐单元测试（不变）
 
+### 会话 004（2026-09-03）
+
+- 本轮目标：把学习文档发布到 GitHub Pages，平板浏览器可读
+- 已完成：
+  - 新增 VitePress 1.6.4 依赖（devDeps）+ `docs:dev` / `docs:build` / `docs:preview` 三个 scripts
+  - 新增 `docs/.vitepress/config.mts`（base = `/harness-study/`，暗色/亮色自动、侧边栏按章节折叠、顶栏 GitHub 链接）
+  - 新增 `docs/index.md` 首页（hero + features 三段 + 当前进度表 + 路径选择）
+  - 新增 `docs/public/favicon.svg`（橙色方块上的 h）
+  - 新增 `.github/workflows/docs.yml`：push to main → bun install → docs:build → 上传 artifacts → deploy to Pages
+  - 修正 docs/ROADMAP.md 与 docs/ENVIRONMENT-HARNESS.md 中 9 处跨目录相对链接（templates/、learning-plan.md）——这些是上一轮我自己写的 `../templates/...`，VitePress 不识别，已改为 GitHub 绝对路径，两套渲染器（GitHub Markdown / VitePress）都正常
+- 运行过的验证：`bun run docs:build` 通过（0 警告 0 死链）；`bun run docs:preview` 起本地服务，curl 6 个核心 URL 全部 200（含暗色/亮色样式表资源）
+- 已记录证据：本次 commit；本会话段
+- 已知风险或未解决问题：**用户在 GitHub 仓库 Settings → Pages → Source 必须手动选 "GitHub Actions" 才会启用**（这是 GitHub 安全策略，workflow 没法替你打开）。启用后 push 才会自动部署。
+- 下一步最佳动作：`test-001` 补齐单元测试（不变）
+- 一次性手动步骤：合并本 PR 后去 https://github.com/wgcairui/harness-study/settings/pages 把 Source 设为 "GitHub Actions"，几分钟后 https://wgcairui.github.io/harness-study/ 即可访问
+
 ### 状态卫生注记
 
 会话 001 的旧版 progress.md 表格里残留 6 行假"待办"（layers 2-7 实际已完成却仍标待办）——
