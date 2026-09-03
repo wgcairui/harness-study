@@ -8,13 +8,13 @@ hero:
   actions:
     - theme: brand
       text: 开始学习（路线总览）
-      link: /ROADMAP
+      link: /ROADMAP.html
     - theme: alt
       text: 前沿拆解
-      link: /FRONTIER-HARNESS
+      link: /FRONTIER-HARNESS.html
     - theme: alt
       text: 五子系统实操
-      link: /ENVIRONMENT-HARNESS
+      link: /ENVIRONMENT-HARNESS.html
 features:
   - icon: 🧭
     title: 一条路线，两个维度

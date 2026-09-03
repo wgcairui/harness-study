@@ -5,7 +5,7 @@ export default defineConfig({
   title: 'harness-study',
   description:
     '从零学 agent harness 的渐进式学习项目：亲手造七层 loop，再用 harness 工程方法把环境装上。',
-  cleanUrls: true,
+  cleanUrls: false,
   appearance: 'auto',
   head: [
     ['link', { rel: 'icon', href: '/harness-study/favicon.svg', type: 'image/svg+xml' }],
@@ -14,9 +14,9 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '路线', link: '/' },
-      { text: '阅读', link: '/REFERENCES' },
-      { text: '拆解', link: '/FRONTIER-HARNESS' },
-      { text: '环境', link: '/ENVIRONMENT-HARNESS' }
+      { text: '阅读', link: '/REFERENCES.html' },
+      { text: '拆解', link: '/FRONTIER-HARNESS.html' },
+      { text: '环境', link: '/ENVIRONMENT-HARNESS.html' }
     ],
     sidebar: {
       '/': [
@@ -29,10 +29,10 @@ export default defineConfig({
         {
           text: '教程文档',
           items: [
-            { text: 'ROADMAP 路线详情', link: '/ROADMAP' },
-            { text: 'REFERENCES 阅读清单', link: '/REFERENCES' },
-            { text: 'FRONTIER-HARNESS 前沿拆解', link: '/FRONTIER-HARNESS' },
-            { text: 'ENVIRONMENT-HARNESS 五子系统', link: '/ENVIRONMENT-HARNESS' }
+            { text: 'ROADMAP 路线详情', link: '/ROADMAP.html' },
+            { text: 'REFERENCES 阅读清单', link: '/REFERENCES.html' },
+            { text: 'FRONTIER-HARNESS 前沿拆解', link: '/FRONTIER-HARNESS.html' },
+            { text: 'ENVIRONMENT-HARNESS 五子系统', link: '/ENVIRONMENT-HARNESS.html' }
           ]
         },
         {
