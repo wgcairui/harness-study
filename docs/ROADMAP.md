@@ -47,6 +47,7 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 **验收**：
 - [ ] demo 跑通，能指着输出说出哪一段是 event 流、哪一段是 tool dispatch
 - [ ] 写下你自己踩到的至少 1 条失败模式（对照课程的 [method-map](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/reference/method-map)，它属于哪一类？）
+- [ ] （可选）用 L01 的方法测一次自己的「验证缺口」：5 个任务里，agent 声称完成但实际没完成的比例是多少
 
 ---
 
@@ -91,9 +92,11 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 - 把 [`templates/`](../templates/) 七件套装进**你自己的真实项目**（不是本 repo）：AGENTS.md、init.sh、feature_list.json、progress.md、session-handoff.md、clean-state-checklist.md、evaluator-rubric.md。先装前四个，项目变复杂再补其余
 - 参照本 repo 根目录的 `init.sh` + `feature_list.json` + `AGENTS.md` 验证命令段——本 repo 自己就是这套方法的第一个使用者（自审计报告见 [`ENVIRONMENT-HARNESS.md`](./ENVIRONMENT-HARNESS.md)）
 - 对照课程 [P01](https://walkinglabs.github.io/learn-harness-engineering/zh/projects/project-01-baseline-vs-minimal-harness/) 做一次 A/B：同一任务，纯 prompt vs 规则驱动，记录结果差异
+- 自查两条硬规则：L07 的 WIP=1（同一时间只允许一个 in_progress，贪多的代码行数和完成率负相关）；L08 的三元组（每项功能必须有 行为描述 + 验证命令 + 状态，缺一不完整）
 
 **验收**：
-- [ ] 新会话里 agent 能在 3 条命令内恢复全部上下文（读 progress → 读 feature list → 跑 init.sh）
+- [ ] 通过 L03 的「全新会话测试」：开一个全新会话只看仓库，能答五问——什么系统 / 怎么组织 / 怎么跑 / 怎么验证 / 做到哪了
+- [ ] 新会话重建成本 ≤3 分钟（L05 的标准：好 harness 能把 15 分钟压到 3 分钟）
 - [ ] feature_list 里没有"假 passing"——每个 passing 都有可点开的证据
 - [ ] 你能说出五个子系统在你的项目里分别由哪个文件承载
 
@@ -112,12 +115,14 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 4. [Anthropic: Demystifying evals for AI agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents) — 评的是 model + harness 整体
 
 **做什么**：
-- 用 `templates/evaluator-rubric.md` 给你阶段 2 的 agent 输出打分，做一轮校准（对照课程模板里的 3-5 轮校准法）
-- 把 `templates/clean-state-checklist.md` 接进你的 AGENTS.md 收尾流程
+- 用 `templates/evaluator-rubric.md` 给你阶段 2 的 agent 输出打分，做一轮校准（对照课程模板里的 3-5 轮校准法；Anthropic 的教训：evaluator 早期会"发现问题然后说服自己不严重"）
+- 把 `templates/clean-state-checklist.md` 接进你的 AGENTS.md 收尾流程（L12 的五条件：构建 / 测试 / 进度 / 工件 / 启动路径，缺一不算完）
+- 把 L10 的「面向 agent 的错误消息」落地：测试失败输出带三要素——什么错了 / 为什么 / 怎么修
 - （可选，深度 2 预演）给本 repo 加一个 `examples/02_transcript.ts`：把 events 流落盘成 `transcript.jsonl`，一行一事件——这正是 ZCode `~/.zcode/cli/agents/<sess>/<agent>/transcript.jsonl` 的原理
-- 思考题：本 repo 的 `events.ts` 单向事件流，为什么就是课程说的"可观测性属于 harness"？（答案线索：如果 UI 能改 messages，permission 和 replay 就都失效了，见 DESIGN.md）
+- 思考题：本 repo 的 `events.ts` 单向事件流，为什么就是课程说的"可观测性属于 harness"？（答案线索：L11 说可观测性分两层——运行时信号回答"系统做了什么"，过程工件（合同/评分标准）回答"为什么该被接受"；如果 UI 能改 messages，两层都失效，见 DESIGN.md）
 
 **验收**：
+- [ ] 完成判定走 L09 的三层终止检查：静态检查 → 运行时行为 → 端到端流程，层层递进不许跳
 - [ ] 每次会话结束都过了 clean-state checklist 才 commit
 - [ ] evaluator 打分与你的人工判断基本一致（校准记录在案）
 - [ ] 能对一次失败给出归因：任务不清 / 上下文缺 / 环境不可复现 / 验证缺 / 状态断
@@ -136,9 +141,10 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 3. [Addy Osmani: Loop Engineering](https://addyosmani.com/blog/loop-engineering/) — L13 的框架源头
 
 **做什么**（对应课程 [P07](https://walkinglabs.github.io/learn-harness-engineering/zh/projects/project-07-loop-engineering-first-loop/)，三个递进实验）：
-- goal loop：用课程 `goal-template.md` + `loop-state-template.md` 起一个目标循环
-- maker-checker loop：maker 干活，checker 按你的 rubric 评审，不过就打回（generator/evaluator 分离）
-- 量化：自动循环 vs 手动会话的人工干预次数对比，有数字
+- goal loop：把任务写成 L13 的三要素——目标 / 验证方式 / 停止条件（用课程 `goal-template.md` + `loop-state-template.md`），先手动跑一遍留基线，再用 `/goal` 跑
+- timer loop：把一个巡检任务变成 `/loop` 定时跑，记录发现数 / 误报率 / 你跟进花的时间，算算值不值
+- maker-checker loop：maker 干活，checker 按你的 rubric 评审，不过就打回（generator/evaluator 分离——L13 的话："你的人里必须有一个不信你的"）
+- 量化：自动循环 vs 手动会话的人工干预次数对比，有数字；对照 L13 的成熟度阶梯（L1 goal runner → L5 fleet orchestration）给自己定位
 
 **验收**：
 - [ ] 一个 maker-checker loop 在你的真实项目上跑完一个完整 feature
@@ -153,14 +159,15 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 **前置**：阶段 4。
 
 **读什么**：
-1. 课程 [L14 从单循环到图工程](https://walkinglabs.github.io/learn-harness-engineering/zh/lectures/lecture-14-graph-engineering/) — 四层堆叠（prompt→context→loop→graph）、节点/边/共享状态/路由、"什么时候才值得画图"
+1. 课程 [L14 从单循环到图工程](https://walkinglabs.github.io/learn-harness-engineering/zh/lectures/lecture-14-graph-engineering/) — 四层堆叠（prompt→context→loop→graph）、图四零件（节点/边/共享状态/路由）、单循环三种结构性失败（Goodhart / 向上失明 / 冲突）、图 ≠ workflow（差别在节点里装的是函数还是 agent）、编排税（你的审阅带宽是串行资源）
 2. 本 repo [`FRONTIER-HARNESS.md`](./FRONTIER-HARNESS.md) — Claude Code / Codex / Pi / DeepSeek 四篇拆解读本，读原文 + 做映射练习
 3. [`REFERENCES.md`](./REFERENCES.md) 里的 2026 扩展阅读，按需取用
 
 **做什么**：
-- 对应课程 [P08](https://walkinglabs.github.io/learn-harness-engineering/zh/projects/project-08-graph-engineering-first-graph/)：把你阶段 4 的 maker-checker loop 画成显式 graph，加一个并行 fan-out/fan-in 节点，再加一条条件回滚边 + 人工审批节点
+- 对应课程 [P08](https://walkinglabs.github.io/learn-harness-engineering/zh/projects/project-08-graph-engineering-first-graph/)：把你阶段 4 的 maker-checker loop 画成显式 graph，加一个并行 fan-out/fan-in 节点，再加一条条件回退边 + 人工审批节点
+- 动手前先过 L14 的五个判据（可独立拆分 / 有分支或回退 / 中间状态值得存 / 结果可验收 / 协作收益 > 协调成本），至少满足三条再画图
 - **毕业考**：挑一个你没拆过的 agent 产品（Cursor / Devin / OpenHands…），产出一份五子系统审计：每个子系统它怎么落地、对应本 repo 哪一层、哪些机制值得抄、哪些是当前模型能力下多余的
-- 做一次"逐个移除"实验：对你的 harness 逐个拆掉一个组件跑基准，量化边际贡献（Anthropic 的方法，注意先有失败归因再谈瓶颈）
+- 做一次"逐个移除"实验：对你的 harness 逐个拆掉一个组件跑基准，量化边际贡献（Anthropic 的方法，注意先有失败归因再谈瓶颈；L12 补充：模型变强后 h​​arness 组件会编码过时假设，移除实验要按月做）
 
 **验收（毕业标准）**：
 - [ ] 审计报告能让没接触过该产品的人 10 分钟看懂它的 harness

@@ -54,6 +54,20 @@
 - 已知风险或未解决问题：五子系统审计发现的问题（无验证命令段 / 无 init.sh / progress.md 假待办行 / 单测缺口）已在本轮修复或登记，详见 docs/ENVIRONMENT-HARNESS.md
 - 下一步最佳动作：`test-001` 补齐七层单元测试（llm 流累积 / tools happy+fail / permission 拦截 / prompt 四段）
 
+### 会话 003（2026-09-03）
+
+- 本轮目标：应用户要求，把文档里全部 42 个外链从"可达性验证"升级为"内容级通读"，并据此补全文档
+- 已完成：
+  - walkinglabs 14 篇讲义 + 3 个项目页（P01/P07/P08）+ 4 篇前沿拆解 + 7 模板 + 3 内部参考，全部在本地克隆中通读
+  - 10 篇外部文章经子代理全文抓取核对（Addy / Fowler / shareAI-lab / LangChain ×2 / Stripe / Cursor / Anthropic ×2 / OpenAI ×3）
+  - 修正转述失真 5 处：Addy 文章无"四种沉默成本"（系 L13 归纳）；LangChain Deep Agents 无 Terminal Bench 名次；Stripe Minions 无 blueprints（在 Part 2）；LangChain context 是 offload 非 truncation；"repo as source of truth" 主体是 docs/ 而非 AGENTS.md
+  - 日期回修：OpenAI 三篇以页面正文日期为准（2026-02-11 / 2026-01-23 / 2026-02-04）——会话 002 按 meta publishedTime 改成 2026-08 是误判
+  - ROADMAP 各阶段充入通读所得硬细节：L03 五问测试、L05 重建成本 3 分钟、L07 WIP=1、L08 三元组、L09 三层终止检查、L10 错误消息三要素、L11 双层可观测、L12 五条件、L13 三要素 + 成熟度阶梯、L14 五判据 + 三种结构性失败
+- 运行过的验证：`bunx tsc --noEmit` 通过（本轮只动文档）；`grep` 确认无不可见字符混入
+- 已记录证据：本 commit；docs/REFERENCES.md 底部核对状态注记
+- 已知风险或未解决问题：外部文章后续可能改版，简介以核对当日为准
+- 下一步最佳动作：`test-001` 补齐单元测试（不变）
+
 ### 状态卫生注记
 
 会话 001 的旧版 progress.md 表格里残留 6 行假"待办"（layers 2-7 实际已完成却仍标待办）——
