@@ -58,20 +58,23 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 **前置**：阶段 0。
 
 **读什么**：
+- 从零开始的全路径：[`docs/ENGINE-ROADMAP.md`](./ENGINE-ROADMAP)（新人先看这一页——它从"agent loop 是什么"讲起，再逐层给你施工图）
+- 工程师节奏表：[`learning-plan.md`](https://github.com/wgcairui/harness-study/blob/main/learning-plan.md)（已有 TS / Bun 经验可只看这个，含跨层思考题）
 - 本 repo 源码，按依赖序：`src/events.ts` → `src/llm.ts` → `src/tools/registry.ts` + `src/tools/read_file.ts` → `src/permission.ts` → `src/prompt.ts` → `src/loop.ts` → `src/repl.ts` + `src/index.ts`
-- 每层的 Why/Done/Verify 见 [`learning-plan.md`](https://github.com/wgcairui/harness-study/blob/main/learning-plan.md)（本阶段的详细施工图；本 repo 仓库根目录）
-- [OpenAI: Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) — 工业级 loop 和你的 mini loop 差在哪
-- 本 repo README 的「真实系统对应地图」— 每层在 ZCode / Claude Code SDK 里的原型
+- 工业级对照：[OpenAI: Unrolling the Codex agent loop](https://openai.com/index/unrolling-the-codex-agent-loop/) — 工业级 loop 和你的 mini loop 差在哪
+- 本 repo [README 的「真实系统对应地图」](https://github.com/wgcairui/harness-study#真实系统对应地图带-fileline) — 每层在 ZCode / Claude Code SDK 里的原型（带 file:line）
 
-**做什么**（新人 = 跟着 learning-plan 逐层实现；作者 = 补验证）：
+**做什么**（新人 = 跟着 ENGINE-ROADMAP 逐层实现；作者 = 补验证）：
 - [ ] Layer 1-7 逐层实现，**每层独立 commit**（git 历史就是你的学习记录）
 - [ ] 补齐 learning-plan 承诺过的单元测试：llm 流累积、tool happy/fail path、permission 拦截、prompt 四段结构（当前缺口，见 feature_list 的 `test-001`）
 - [ ] 跑通 `examples/01_repo_qa.ts` 全链路
+- [ ] 完成 ENGINE-ROADMAP 第 6 节的跨层思考题（5 题中选 2-3 题动手）
 
 **验收**：
 - [ ] `bunx tsc --noEmit` 通过
 - [ ] `bun test` 通过（llm / tools / permission / prompt 各至少 1 happy + 1 fail case）
 - [ ] 不看源码能画出 loop 状态机图：messages 累积、tool_use↔tool_result、三个退出条件
+- [ ] 能回答"加 X 改哪几层"——边界意识比"知道每层 API"更重要
 
 ---
 

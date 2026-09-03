@@ -14,16 +14,19 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '路线', link: '/' },
+      { text: '造引擎', link: '/ENGINE-ROADMAP.html' },
+      { text: '造环境', link: '/ENVIRONMENT-HARNESS.html' },
       { text: '阅读', link: '/REFERENCES.html' },
-      { text: '拆解', link: '/FRONTIER-HARNESS.html' },
-      { text: '环境', link: '/ENVIRONMENT-HARNESS.html' }
+      { text: '拆解', link: '/FRONTIER-HARNESS.html' }
     ],
     sidebar: {
       '/': [
         {
           text: '学习路线',
           items: [
-            { text: '总览 / 阶段 0-5', link: '/' }
+            { text: '总览 / 阶段 0-5', link: '/' },
+            { text: '阶段 1 造引擎（从零开始）', link: '/ENGINE-ROADMAP.html' },
+            { text: '阶段 2-3 造环境（五子系统）', link: '/ENVIRONMENT-HARNESS.html' }
           ]
         },
         {
@@ -31,8 +34,7 @@ export default defineConfig({
           items: [
             { text: 'ROADMAP 路线详情', link: '/ROADMAP.html' },
             { text: 'REFERENCES 阅读清单', link: '/REFERENCES.html' },
-            { text: 'FRONTIER-HARNESS 前沿拆解', link: '/FRONTIER-HARNESS.html' },
-            { text: 'ENVIRONMENT-HARNESS 五子系统', link: '/ENVIRONMENT-HARNESS.html' }
+            { text: 'FRONTIER-HARNESS 前沿拆解', link: '/FRONTIER-HARNESS.html' }
           ]
         },
         {

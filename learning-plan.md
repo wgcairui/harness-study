@@ -1,6 +1,7 @@
 # Learning Plan — 阶段 1「造引擎」施工图
 
-> 本文件是 [docs/ROADMAP.md](docs/ROADMAP.md) **阶段 1** 的详细施工图：只覆盖引擎侧七层。
+> 本文件是 [docs/ROADMAP.md](docs/ROADMAP.md) **阶段 1** 的工程师节奏表。
+> 想要从零开始的完整讲解见 [docs/ENGINE-ROADMAP.md](docs/ENGINE-ROADMAP.md)；
 > 完整路线（阶段 0 看见问题 → 阶段 5 图工程）和环境侧工件见 ROADMAP。
 >
 > ⚠️ 诚实注记（2026-09-03 审计）：下面各层 **Verify** 里写的 `bun test` 单元测试至今不存在，
@@ -9,6 +10,18 @@
 > 新人跟随本计划时，请把每层的 Verify 真的做掉，别复制这个缺口。
 
 5 个 layer（+整合与入口）的学习路线。每完成一个 layer，在该行末加 `✓ 完成于 <commit-hash>`。
+
+## 跨层思考题（在动手做每层之前先读，能帮你建立边界感）
+
+| 思考题 | 训练的能力 | 推荐动手时机 |
+| --- | --- | --- |
+| events.ts 加一个"事件过滤器"层（按 type 过滤），观察对 loop.ts 有什么影响？ | 边界设计 | 做完 Layer 1 后 |
+| 把 permission 改成"per-tool 的策略对象"（`bash: BashPolicy`, `write: WritePolicy`），怎么改最省事？ | 接口稳定性 | 做完 Layer 4 后 |
+| 给 loop.ts 加"可恢复中断"——按 Ctrl-C 不退出，下次执行从中断处继续。需要改哪几层？ | 状态持久化（深度 2 入口） | 做完 Layer 6 后 |
+| 把 REPL 换成 WebSocket 服务，前端是 Electron 渲染。loop.ts 要改吗？ | 解耦边界 | 做完 Layer 7 后 |
+| 让 loop 支持"中途插入新 prompt"（不打断当前 turn），messages 累积策略怎么改？ | 时序正确性 | 读完 Layer 6 后 |
+
+每个思考题答案都在 [ENGINE-ROADMAP 第 6 节](docs/ENGINE-ROADMAP.md#6-跨层思考题动手做不看答案)，但先自己想再看。
 
 ## Layer 1 — Streaming events (events.ts)
 
