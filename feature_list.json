@@ -1,0 +1,179 @@
+{
+  "project": "harness-study",
+  "last_updated": "2026-09-03",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "status_legend": {
+    "not_started": "尚未开始。",
+    "in_progress": "当前活跃任务（同一时间只允许一个）。",
+    "blocked": "有已记录的 blocker，推不动。",
+    "passing": "要求的验证已通过且证据已记录。"
+  },
+  "features": [
+    {
+      "id": "test-001",
+      "priority": 1,
+      "area": "verification",
+      "title": "补齐 learning-plan 承诺的单元测试（llm 流累积 / tools happy+fail / permission 拦截 / prompt 四段）",
+      "user_visible_behavior": "bun test 跑通且纳入 init.sh 基线验证，七层各至少 1 happy + 1 fail case。",
+      "status": "not_started",
+      "verification": [
+        "bun test 退出码 0。",
+        "覆盖 llm / tools / permission / prompt 四个模块。",
+        "init.sh 基线验证段真实执行到测试。"
+      ],
+      "evidence": [],
+      "notes": "learning-plan.md 各层 Done means 写了 bun test，但审计（2026-09-03）发现一个测试文件都不存在——按 passing_requires_evidence 不许把七层标假 passing，故单列此项。"
+    },
+    {
+      "id": "smoke-001",
+      "priority": 2,
+      "area": "verification",
+      "title": "demo 真机 smoke：examples/01_repo_qa.ts 打通真实 LLM，三工具（glob/read_file/grep）各被走到一次",
+      "user_visible_behavior": "demo 输出里看到 tool_call 与 tool_result 交替出现，最终合并答案。",
+      "status": "blocked",
+      "verification": [
+        "bun run examples/01_repo_qa.ts 退出码 0。",
+        "输出包含至少 3 次 tool_call（glob / read_file / grep 各一）。"
+      ],
+      "evidence": [],
+      "notes": "Blocker（2026-09-01）：bigmodel-start-plan 的 key 绑 ZCode 网关，直调返回 401 invalid api key。代码路径已过 type-check，换直连 Anthropic key 应直通。这是环境问题不是 harness bug。"
+    },
+    {
+      "id": "layer-1-events",
+      "priority": 10,
+      "area": "engine",
+      "title": "Layer 1 · 事件流（src/events.ts）",
+      "user_visible_behavior": "Event discriminated union + Emitter，emit/subscribe 可用。",
+      "status": "passing",
+      "verification": [
+        "bunx tsc --noEmit 通过。",
+        "代码位于 src/events.ts，独立 commit。"
+      ],
+      "evidence": [
+        "commit c6a90a6（2026-09）",
+        "type-check 通过（bunx tsc --noEmit，2026-09-03 复跑 exit=0）"
+      ],
+      "notes": "验证手段目前仅 type-check；行为级验证依赖 test-001。"
+    },
+    {
+      "id": "layer-2-llm",
+      "priority": 11,
+      "area": "engine",
+      "title": "Layer 2 · LLM 流式客户端（src/llm.ts）",
+      "user_visible_behavior": "streamChat 返回 AsyncIterable，能累积 text / input_json_delta 成完整 assistant message。",
+      "status": "passing",
+      "verification": [
+        "bunx tsc --noEmit 通过。",
+        "代码位于 src/llm.ts，独立 commit。"
+      ],
+      "evidence": [
+        "commit dd1e891（2026-09）",
+        "type-check 通过（2026-09-03 复跑）"
+      ],
+      "notes": "learning-plan 原验收要求 mock MessageStream 的单测 → 未做，归入 test-001。"
+    },
+    {
+      "id": "layer-3-tools",
+      "priority": 12,
+      "area": "engine",
+      "title": "Layer 3 · 工具注册与 dispatch（src/tools/*）",
+      "user_visible_behavior": "registry 查得到 read_file / glob / grep / bash 四工具，schema 必填字段缺一即注册失败。",
+      "status": "passing",
+      "verification": [
+        "bunx tsc --noEmit 通过。",
+        "代码位于 src/tools/，独立 commit。"
+      ],
+      "evidence": [
+        "commit 02e1102（2026-09）",
+        "type-check 通过（2026-09-03 复跑）"
+      ],
+      "notes": "happy/fail path 单测归入 test-001。"
+    },
+    {
+      "id": "layer-4-permission",
+      "priority": 13,
+      "area": "engine",
+      "title": "Layer 4 · 权限层（src/permission.ts）",
+      "user_visible_behavior": "白名单外工具被拒；bash 黑名单（rm/sudo/dd…）双层防御。",
+      "status": "passing",
+      "verification": [
+        "bunx tsc --noEmit 通过。",
+        "代码位于 src/permission.ts，独立 commit。"
+      ],
+      "evidence": [
+        "commit 457d8be（2026-09）",
+        "type-check 通过（2026-09-03 复跑）"
+      ],
+      "notes": "mock ask hook 的单测归入 test-001。"
+    },
+    {
+      "id": "layer-5-prompt",
+      "priority": 14,
+      "area": "engine",
+      "title": "Layer 5 · System prompt 拼装（src/prompt.ts）",
+      "user_visible_behavior": "role + cwd + 工具块 + skills frontmatter 四段结构；不从网络拼接内容。",
+      "status": "passing",
+      "verification": [
+        "bunx tsc --noEmit 通过。",
+        "代码位于 src/prompt.ts，独立 commit。"
+      ],
+      "evidence": [
+        "commit 2ff710d（2026-09）",
+        "type-check 通过（2026-09-03 复跑）"
+      ],
+      "notes": "四段结构断言单测归入 test-001。"
+    },
+    {
+      "id": "layer-6-loop",
+      "priority": 15,
+      "area": "engine",
+      "title": "Layer 6 · 主循环（src/loop.ts）",
+      "user_visible_behavior": "runAgent 状态机：messages 累积、tool_use↔tool_result、end_turn / max_turns / error 三退出。",
+      "status": "passing",
+      "verification": [
+        "bunx tsc --noEmit 通过。",
+        "demo examples/01_repo_qa.ts 代码走通编译路径。"
+      ],
+      "evidence": [
+        "commit 17d40fe（2026-09）",
+        "type-check 通过（2026-09-03 复跑）"
+      ],
+      "notes": "真机全链路归 smoke-001（blocked）。"
+    },
+    {
+      "id": "layer-7-repl",
+      "priority": 16,
+      "area": "engine",
+      "title": "Layer 7 · REPL + CLI 入口（src/repl.ts + src/index.ts）",
+      "user_visible_behavior": "stdio 实时渲染事件；permission_ask 停 y/N；--prompt 一键运行。",
+      "status": "passing",
+      "verification": [
+        "bunx tsc --noEmit 通过。",
+        "代码位于 src/repl.ts + src/index.ts，独立 commit。"
+      ],
+      "evidence": [
+        "commit 7833ff7（2026-09）",
+        "type-check 通过（2026-09-03 复跑）"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "docs-001",
+      "priority": 17,
+      "area": "harness",
+      "title": "文档重构：双身份（个人学习 + 新人渐进教程）+ 环境侧工件自装",
+      "user_visible_behavior": "新人从 README 进入 docs/ROADMAP.md 可独立走完阶段 0-5；本 repo 自带五子系统工件。",
+      "status": "passing",
+      "verification": [
+        "README / AGENTS.md / learning-plan.md / progress.md 相互链接一致。",
+        "docs/ 四篇 + templates/ 七件齐全；init.sh 可执行且基线验证通过。"
+      ],
+      "evidence": [],
+      "notes": "evidence 待本次 commit hash 填入。"
+    }
+  ]
+}

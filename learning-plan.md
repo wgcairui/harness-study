@@ -1,6 +1,14 @@
-# Learning Plan
+# Learning Plan — 阶段 1「造引擎」施工图
 
-5 个 layer 的学习路线。每完成一个 layer，在该行末加 `✓ 完成于 <commit-hash>`。
+> 本文件是 [docs/ROADMAP.md](docs/ROADMAP.md) **阶段 1** 的详细施工图：只覆盖引擎侧七层。
+> 完整路线（阶段 0 看见问题 → 阶段 5 图工程）和环境侧工件见 ROADMAP。
+>
+> ⚠️ 诚实注记（2026-09-03 审计）：下面各层 **Verify** 里写的 `bun test` 单元测试至今不存在，
+> 七层实际达成的验证只有 type-check + demo 编译路径。按 `passing_requires_evidence` 原则，
+> feature_list.json 如实记录了这一点（`test-001`）——这是学习过程的一部分，不是污点。
+> 新人跟随本计划时，请把每层的 Verify 真的做掉，别复制这个缺口。
+
+5 个 layer（+整合与入口）的学习路线。每完成一个 layer，在该行末加 `✓ 完成于 <commit-hash>`。
 
 ## Layer 1 — Streaming events (events.ts)
 

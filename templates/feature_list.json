@@ -1,0 +1,32 @@
+{
+  "_adapted_from": "Learn Harness Engineering course templates (MIT License, (c) WalkingLab) — https://walkinglabs.github.io/learn-harness-engineering/zh/resources/templates/",
+  "project": "replace-with-project-name",
+  "last_updated": "YYYY-MM-DD",
+  "rules": {
+    "single_active_feature": true,
+    "passing_requires_evidence": true,
+    "do_not_skip_verification": true
+  },
+  "status_legend": {
+    "not_started": "尚未开始。",
+    "in_progress": "当前活跃任务（同一时间只允许一个）。",
+    "blocked": "有已记录的 blocker，推不动。",
+    "passing": "要求的验证已通过且证据已记录。"
+  },
+  "features": [
+    {
+      "id": "app-001",
+      "priority": 1,
+      "area": "example-area",
+      "title": "换成你的第一个功能",
+      "user_visible_behavior": "功能正常时用户能看到什么（写成可观察的行为）。",
+      "status": "not_started",
+      "verification": [
+        "逐步写清验证步骤，每步都要可执行。",
+        "最后一步必须产生可留存的证据（命令输出/截图/测试报告）。"
+      ],
+      "evidence": [],
+      "notes": ""
+    }
+  ]
+}
