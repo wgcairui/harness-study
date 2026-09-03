@@ -46,7 +46,7 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 
 **验收**：
 - [ ] demo 跑通，能指着输出说出哪一段是 event 流、哪一段是 tool dispatch
-- [ ] 写下你自己踩到的至少 1 条失败模式（对照课程的 [method-map](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/reference/method-map/)，它属于哪一类？）
+- [ ] 写下你自己踩到的至少 1 条失败模式（对照课程的 [method-map](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/reference/method-map)，它属于哪一类？）
 
 ---
 
@@ -85,7 +85,7 @@ harness 的定义：**模型权重之外的一切工程基础设施**。它由�
 2. 课程 [L04 为什么一个巨型指令文件会失败](https://walkinglabs.github.io/learn-harness-engineering/zh/lectures/lecture-04-why-one-giant-instruction-file-fails/) — 给地图不给说明书
 3. 课程 [L05 长任务为什么会断片](https://walkinglabs.github.io/learn-harness-engineering/zh/lectures/lecture-05-why-long-running-tasks-lose-continuity/) / [L06 初始化为什么是独立阶段](https://walkinglabs.github.io/learn-harness-engineering/zh/lectures/lecture-06-why-initialization-needs-its-own-phase/)
 4. 课程 [L07 agent 为什么贪多烂尾](https://walkinglabs.github.io/learn-harness-engineering/zh/lectures/lecture-07-why-agents-overreach-and-under-finish/) / [L08 feature list 为什么是 harness 原语](https://walkinglabs.github.io/learn-harness-engineering/zh/lectures/lecture-08-why-feature-lists-are-harness-primitives/)
-5. 课程 [method-map](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/reference/method-map.md) — 失败模式 → 工件对照表
+5. 课程 [method-map](https://walkinglabs.github.io/learn-harness-engineering/zh/resources/reference/method-map) — 失败模式 → 工件对照表
 
 **做什么**：
 - 把 [`templates/`](../templates/) 七件套装进**你自己的真实项目**（不是本 repo）：AGENTS.md、init.sh、feature_list.json、progress.md、session-handoff.md、clean-state-checklist.md、evaluator-rubric.md。先装前四个，项目变复杂再补其余
