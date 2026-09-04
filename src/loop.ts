@@ -19,6 +19,7 @@ export type RunAgentOpts = {
   model: string;
   system: string;
   registry: ToolRegistry;
+  emitter: Emitter;
   permission: { decide(name: string, input: Record<string, unknown>): Promise<{ kind: "allow" | "ask" | "deny"; reason?: string }>; ctx: PermissionContext };
   maxTurns?: number;
   signal?: AbortSignal;
@@ -37,7 +38,7 @@ export type RunAgentResult = {
 };
 
 export async function runAgent(opts: RunAgentOpts): Promise<RunAgentResult> {
-  const emitter = new Emitter();
+  const emitter = opts.emitter;
   const messages: Anthropic.Messages.MessageParam[] = [
     { role: "user", content: opts.prompt },
   ];

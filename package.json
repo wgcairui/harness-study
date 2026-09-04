@@ -13,6 +13,7 @@
   },
   "homepage": "https://wgcairui.github.io/harness-study/",
   "scripts": {
+    "start": "bun --env-file=.env run examples/01_repo_qa.ts",
     "docs:dev": "vitepress dev docs --port 5173",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"

@@ -52,6 +52,7 @@ const result = await runAgent({
   model: process.env.HARNESS_MODEL ?? "GLM-5",
   system,
   registry,
+  emitter,
   permission,
   prompt:
     "Look at this project's README: list which package managers and runtimes it supports. " +

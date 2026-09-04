@@ -178,6 +178,35 @@ export type StreamChatResult = {
   events: Event[];
 };
 
+/**
+ * 决定一条 input_json_delta 应该归属到哪个 tool_use 块。
+ * Anthropic 官方 SDK 总是先发 content_block_start 再发 input_json_delta，
+ * 但 MiniMax / GLM-5 这类 Anthropic 兼容实现的顺序可能错位。
+ *
+ * 兜底策略：取最后一个还没收尾（末尾不是 `}`）的 tool_use 块；
+ * 如果没有就取最后一个已知的 tool_use 块。返回 null 表示当前没有
+ * 任何 tool_use 块在累积——直接丢弃这条 delta（防御性，正常不会发生）。
+ */
+function pickOwnerId(
+  _stream: unknown,
+  partialInputs: Map<string, string>,
+  blockMeta: Map<string, { name: string }>,
+): string | null {
+  if (blockMeta.size === 0) return null;
+  // 1. 优先：JSON 还没收尾的最后一块
+  let lastOpen: string | null = null;
+  for (const [id, json] of partialInputs) {
+    if (blockMeta.has(id) && !json.trimEnd().endsWith("}")) {
+      lastOpen = id;
+    }
+  }
+  if (lastOpen !== null) return lastOpen;
+  // 2. 兜底：blockMeta 里最后注册的那块（按 Map 插入顺序）
+  let last: string | null = null;
+  for (const id of blockMeta.keys()) last = id;
+  return last;
+}
+
 export async function streamChat(
   emitter: Emitter,
   turnNumber: number,
@@ -201,10 +230,11 @@ export async function streamChat(
   );
 
   const toolCalls: ToolCall[] = [];
-  // 当前正在累积的 tool input
-  let currentToolId: string | null = null;
-  let currentToolName: string | null = null;
-  let currentToolJson = "";
+  // 按 blockId 分别累积 input JSON。Anthropic 兼容实现（MiniMax / GLM-5）
+  // 不保证 contentBlock 事件早于 inputJson 事件到达，所以不能用单一全局
+  // currentToolJson；多个 tool_use 块并发时也会互相覆盖。
+  const partialInputs = new Map<string, string>();
+  const blockMeta = new Map<string, { name: string }>();
 
   let text = "";
 
@@ -219,21 +249,24 @@ export async function streamChat(
   });
 
   stream.on("inputJson", (partialJson) => {
-    if (currentToolId === null) return;
-    currentToolJson += partialJson;
+    // SDK 文档说 input_json_delta 总是紧跟在它所属的 content_block_start 之后，
+    // 但部分 provider 不严格遵循；用最近的 tool_use 作为兜底归属。
+    const ownerId = pickOwnerId(stream, partialInputs, blockMeta);
+    if (ownerId === null) return;
+    partialInputs.set(ownerId, (partialInputs.get(ownerId) ?? "") + partialJson);
     flushTurnEvents({
       type: "tool_call_delta",
       turn: turnNumber,
-      toolCallId: currentToolId,
+      toolCallId: ownerId,
       partialJson,
     });
   });
 
   stream.on("contentBlock", (block) => {
     if (block.type === "tool_use") {
-      currentToolId = block.id;
-      currentToolName = block.name;
-      currentToolJson = "";
+      blockMeta.set(block.id, { name: block.name });
+      // 不要在这里清空 partialInputs——inputJson 可能已经先到了，
+      // 重置会把已累积的 JSON 丢掉。
       flushTurnEvents({
         type: "tool_call_start",
         turn: turnNumber,
@@ -260,12 +293,18 @@ export async function streamChat(
       contentBlocks.push({ kind: "text", text: block.text });
     } else if (block.type === "tool_use") {
       let parsed: Record<string, unknown> = {};
-      try {
-        // SDK 自己也会算 input；优先用 SDK 累积到的 json
-        const raw = (currentToolId === block.id ? currentToolJson : JSON.stringify(block.input)) || "{}";
-        parsed = JSON.parse(raw) as Record<string, unknown>;
-      } catch {
-        parsed = {};
+      const accumulated = partialInputs.get(block.id);
+      if (accumulated && accumulated.length > 0) {
+        try {
+          parsed = JSON.parse(accumulated) as Record<string, unknown>;
+        } catch {
+          // 累积 JSON 损坏时回落到 SDK 提供的 input
+          parsed = (block.input ?? {}) as Record<string, unknown>;
+        }
+      } else if (block.input && Object.keys(block.input).length > 0) {
+        // 没有累积到任何 partial（罕见，例如 server-side-only 流），
+        // 直接用 SDK 解析好的 input
+        parsed = block.input as Record<string, unknown>;
       }
       const call: ToolCall = { id: block.id, name: block.name, input: parsed };
       toolCalls.push(call);

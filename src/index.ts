@@ -58,6 +58,7 @@ function main() {
       model: process.env.HARNESS_MODEL ?? "GLM-5",
       system,
       registry,
+      emitter,
       permission,
       prompt,
     });

@@ -9,7 +9,9 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT_DIR"
 
 INSTALL_CMD=(bun install)
-START_CMD=(bun run examples/01_repo_qa.ts)
+# bun run auto-loads .env only; this project's docs reference .env.local,
+# so pass it explicitly. No-op if the file is absent.
+START_CMD=(bun --env-file-if-exists=.env.local run examples/01_repo_qa.ts)
 
 echo "==> 工作目录: $PWD"
 echo "==> 安装依赖"
